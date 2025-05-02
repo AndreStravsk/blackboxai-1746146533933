@@ -1,0 +1,23 @@
+{
+  "name": "pwallet-desktop-app",
+  "version": "1.0.0",
+  "description": "Pwallet desktop app for Windows using Electron + Node.js",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "electron": "^25.0.0",
+    "chart.js": "^4.3.0",
+    "date-fns": "^2.30.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "electron",
+    "desktop",
+    "wallet",
+    "finance"
+  ],
+  "author": "",
+  "license": "MIT"
+}
