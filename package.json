@@ -4,7 +4,7 @@
   "description": "Pwallet desktop app for Windows using Electron + Node.js",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron --no-sandbox ."
   },
   "dependencies": {
     "electron": "^25.0.0",
