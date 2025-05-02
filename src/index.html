@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pwallet Desktop App</title>
+  <link rel="stylesheet" href="https://cdn.tailwindcss.com" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans antialiased">
+  <div id="app" class="flex h-screen">
+    <!-- Sidebar -->
+    <div id="sidebar" class="w-64 bg-gray-800 flex flex-col">
+      <div class="p-4 flex items-center justify-center border-b border-gray-700">
+        <img src="../assets/logo.svg" alt="Pwallet Logo" class="h-10 w-auto" />
+        <span class="ml-3 text-xl font-bold">Pwallet</span>
+      </div>
+      <nav class="flex-1 px-2 py-4 space-y-2 overflow-y-auto">
+        <button class="sidebar-btn w-full text-left px-3 py-2 rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700" data-target="dashboard">Dashboard</button>
+        <button class="sidebar-btn w-full text-left px-3 py-2 rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700" data-target="accounts">Accounts</button>
+        <button class="sidebar-btn w-full text-left px-3 py-2 rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700" data-target="entries">Entries</button>
+        <button class="sidebar-btn w-full text-left px-3 py-2 rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700" data-target="investments">Investments</button>
+        <button class="sidebar-btn w-full text-left px-3 py-2 rounded hover:bg-gray-700 focus:outline-none focus:bg-gray-700" data-target="settings">Settings</button>
+      </nav>
+    </div>
+
+    <!-- Main content -->
+    <main id="main-content" class="flex-1 p-6 overflow-auto">
+      <section id="dashboard" class="content-section">
+        <h1 class="text-3xl font-bold mb-4">Dashboard</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-gray-800 rounded p-4">
+            <h2 class="text-xl font-semibold mb-2">Total Balance</h2>
+            <p id="total-balance" class="text-4xl font-bold">R$ 0,00</p>
+          </div>
+          <div class="bg-gray-800 rounded p-4">
+            <h2 class="text-xl font-semibold mb-2">Expenses by Category</h2>
+            <canvas id="expenses-pie-chart"></canvas>
+          </div>
+          <div class="bg-gray-800 rounded p-4 md:col-span-2">
+            <h2 class="text-xl font-semibold mb-2">Balance Evolution</h2>
+            <canvas id="balance-line-chart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <section id="accounts" class="content-section hidden">
+        <h1 class="text-3xl font-bold mb-4">Accounts</h1>
+        <div class="mb-4">
+          <button id="add-account-btn" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">Add Account</button>
+        </div>
+        <div>
+          <table class="min-w-full bg-gray-800 rounded">
+            <thead>
+              <tr>
+                <th class="px-4 py-2 cursor-pointer">Name</th>
+                <th class="px-4 py-2 cursor-pointer">Type</th>
+                <th class="px-4 py-2 cursor-pointer">Balance</th>
+              </tr>
+            </thead>
+            <tbody id="accounts-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="entries" class="content-section hidden">
+        <h1 class="text-3xl font-bold mb-4">Entries</h1>
+        <div>
+          <form id="entry-form" class="space-y-4 max-w-md">
+            <div>
+              <label for="entry-type" class="block mb-1">Type</label>
+              <select id="entry-type" class="w-full rounded bg-gray-700 p-2">
+                <option value="income">Income</option>
+                <option value="expense">Expense</option>
+              </select>
+            </div>
+            <div>
+              <label for="entry-amount" class="block mb-1">Amount</label>
+              <input type="number" id="entry-amount" class="w-full rounded bg-gray-700 p-2" required />
+            </div>
+            <div>
+              <label for="entry-category" class="block mb-1">Category</label>
+              <input type="text" id="entry-category" class="w-full rounded bg-gray-700 p-2" required />
+            </div>
+            <div>
+              <label for="entry-date" class="block mb-1">Date</label>
+              <input type="date" id="entry-date" class="w-full rounded bg-gray-700 p-2" required />
+            </div>
+            <div>
+              <label for="entry-description" class="block mb-1">Description</label>
+              <textarea id="entry-description" class="w-full rounded bg-gray-700 p-2" rows="2"></textarea>
+            </div>
+            <button type="submit" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded">Add Entry</button>
+          </form>
+        </div>
+      </section>
+
+      <section id="investments" class="content-section hidden">
+        <h1 class="text-3xl font-bold mb-4">Investments</h1>
+        <div>
+          <table class="min-w-full bg-gray-800 rounded">
+            <thead>
+              <tr>
+                <th class="px-4 py-2">Name</th>
+                <th class="px-4 py-2">Value</th>
+                <th class="px-4 py-2">Date</th>
+                <th class="px-4 py-2">Type</th>
+                <th class="px-4 py-2">Yield</th>
+              </tr>
+            </thead>
+            <tbody id="investments-table-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="settings" class="content-section hidden">
+        <h1 class="text-3xl font-bold mb-4">Settings</h1>
+        <form id="settings-form" class="space-y-4 max-w-md">
+          <div>
+            <label for="theme-select" class="block mb-1">Theme</label>
+            <select id="theme-select" class="w-full rounded bg-gray-700 p-2">
+              <option value="dark" selected>Dark</option>
+              <option value="light">Light</option>
+            </select>
+          </div>
+          <div>
+            <label for="language-select" class="block mb-1">Language</label>
+            <select id="language-select" class="w-full rounded bg-gray-700 p-2">
+              <option value="pt-BR" selected>Portuguese (Brazil)</option>
+              <option value="en-US">English (US)</option>
+            </select>
+          </div>
+          <div>
+            <label for="currency-select" class="block mb-1">Currency</label>
+            <select id="currency-select" class="w-full rounded bg-gray-700 p-2">
+              <option value="BRL" selected>Brazilian Real (BRL)</option>
+              <option value="USD">US Dollar (USD)</option>
+            </select>
+          </div>
+          <button type="submit" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded">Save Settings</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
